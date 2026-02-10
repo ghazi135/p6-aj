@@ -13,7 +13,7 @@ Dans **Settings → Secrets and variables → Actions** du dépôt :
 
 | Secret        | Description |
 |---------------|-------------|
-| `SONAR_TOKEN` | Token SonarCloud ou SonarQube (obligatoire pour lancer l’analyse en CI). |
+| `SONAR_TOKEN` | Token SonarCloud ou SonarQube (obligatoire pour lancer l’analyse en CI). |.
 
 **Variables** (Settings → Variables) selon votre cas :
 
