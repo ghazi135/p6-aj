@@ -48,11 +48,10 @@ jobs:
           name: test-results
           path: test-results
 
-  # SonarQube / SonarCloud (optional: set SONAR_TOKEN in repo secrets)
+  # SonarQube / SonarCloud (requires SONAR_TOKEN in repo secrets)
   sonar:
     runs-on: ubuntu-latest
     needs: test
-    if: ${{ secrets.SONAR_TOKEN != '' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -72,7 +71,7 @@ jobs:
       - name: SonarQube / SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY || replace(github.repository, '/', '_') }}
+          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY || format('{0}_{1}', github.repository_owner, github.event.repository.name) }}
           SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION || github.repository_owner }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
         run: |
