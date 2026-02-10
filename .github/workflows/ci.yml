@@ -12,6 +12,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write   # required for dorny/test-reporter to create check runs
     env:
       APP_TYPE: ${{ vars.APP_TYPE || 'springboot' }}
 
