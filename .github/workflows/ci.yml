@@ -29,6 +29,9 @@ jobs:
       - name: Make test script executable
         run: chmod +x run-tests.sh
 
+      - name: Set Gradle wrapper permissions
+        run: chmod +x ./gradlew
+
       - name: Run Spring Boot tests
         run: ./run-tests.sh ${{ vars.APP_TYPE || 'springboot' }}
 
@@ -64,6 +67,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'gradle'
+
+      - name: Set Gradle wrapper permissions
+        run: chmod +x ./gradlew
 
       - name: Run tests (for Sonar coverage)
         run: ./gradlew test --no-daemon
