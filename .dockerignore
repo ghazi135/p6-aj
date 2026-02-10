@@ -1,0 +1,35 @@
+# Build and IDE
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+.idea/
+*.iml
+.vscode/
+out/
+
+# Git and env
+.git/
+.gitignore
+.env
+.env.*
+!.env.example
+
+# Docs and misc
+README.md
+*.md
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Tests and CI (not needed in image)
+test-results/
+.github/
+.gitlab-ci.yml
+
+# OpenAPI generated (rebuilt in image)
+.openapi-generator/
+java-generated/
+
+# OS
+.DS_Store
+Thumbs.db

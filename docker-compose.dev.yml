@@ -1,0 +1,47 @@
+name: workshop-organizer-dev
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://db:5432/${POSTGRES_DB:-workshop}"
+      SPRING_DATASOURCE_USERNAME: "${POSTGRES_USER:-postgres}"
+      SPRING_DATASOURCE_PASSWORD: "${POSTGRES_PASSWORD:-postgres}"
+    depends_on:
+      init-db:
+        condition: service_completed_successfully
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-postgres}"
+      POSTGRES_DB: "${POSTGRES_DB:-workshop}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-workshop}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  init-db:
+    image: postgres:16-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-workshop}"
+    volumes:
+      - ./db:/scripts:ro
+    working_dir: /scripts
+    command: ["/bin/bash", "/scripts/init_db.sh", "/scripts"]
+    restart: "no"
+
+volumes:
+  postgres_data:
