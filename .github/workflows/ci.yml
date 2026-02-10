@@ -84,10 +84,15 @@ jobs:
           SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION || github.repository_owner }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
         run: |
+          # Unset SONAR_HOST_URL if empty or invalid so Gradle plugin uses SonarCloud default (https://sonarcloud.io)
+          if [ -z "$SONAR_HOST_URL" ] || ! echo "$SONAR_HOST_URL" | grep -qE '^https?://'; then
+            unset SONAR_HOST_URL
+          fi
           ARGS="--no-daemon -Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.organization=$SONAR_ORGANIZATION"
-          # Only set sonar.host.url when using a self-hosted SonarQube (must start with http/https). Leave unset for SonarCloud.
-          if [ -n "$SONAR_HOST_URL" ] && echo "$SONAR_HOST_URL" | grep -qE '^https?://'; then
+          if [ -n "$SONAR_HOST_URL" ]; then
             ARGS="$ARGS -Dsonar.host.url=$SONAR_HOST_URL"
+          else
+            ARGS="$ARGS -Dsonar.host.url=https://sonarcloud.io"
           fi
           ./gradlew sonar $ARGS
 
