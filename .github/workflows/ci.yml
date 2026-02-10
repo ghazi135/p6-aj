@@ -128,7 +128,7 @@ jobs:
 
   # Release only after build is verified
   release:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     needs: build
     permissions:
@@ -163,7 +163,7 @@ jobs:
 
   # Load saved image and push to registry
   publish:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     needs:
       - build
