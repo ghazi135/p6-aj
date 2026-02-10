@@ -59,7 +59,15 @@ Si le job SonarQube échoue avec *"Project not found. Please check the 'sonar.pr
 4. **Clé = celle de SonarCloud**  
    - La valeur de `sonar.projectKey` dans `sonar-project.properties` doit être **strictement** celle indiquée sur la page du projet dans SonarCloud (onglet *Project Settings* → *Key*).
 
-## 6. Ressources
+## 6. Dépannage : "CI analysis while Automatic Analysis is enabled"
+
+Si l’analyse échoue avec *"You are running CI analysis while Automatic Analysis is enabled. Please consider disabling one or the other"* :
+
+- **Désactiver l’analyse automatique** (recommandé quand vous utilisez GitHub Actions) :  
+  - SonarCloud → projet **p6-aj** → **Administration** → **Analysis Method**.  
+  - Choisir **With GitHub Actions** (ou **CI-based**) et enregistrer, ou désactiver **Automatic Analysis** selon les options affichées.
+
+## 7. Ressources
 
 - [SonarCloud – GitHub Actions](https://docs.sonarsource.com/sonarcloud/advanced-setup/ci-based-analysis/github-actions-for-sonarcloud/)
 - [SonarScanner for Gradle](https://docs.sonarsource.com/sonarqube-cloud/advanced-setup/ci-based-analysis/sonarscanner-for-gradle)

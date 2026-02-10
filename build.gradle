@@ -5,7 +5,14 @@ plugins {
 	id 'java'
 	id 'maven-publish'
 	id 'war'
-	id 'org.sonarqube' version '5.0.0.4638'
+	id 'org.sonarqube' version '7.1.0.6387'
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "ghazi135_p6-aj"
+		property "sonar.organization", "ghazi135"
+	}
 }
 
 group = 'fr.oc.devops'
