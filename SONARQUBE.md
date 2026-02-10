@@ -38,7 +38,28 @@ Une fois `SONAR_TOKEN` (et éventuellement `SONAR_HOST_URL`) configurés, chaque
 - **Activer** : ajoutez le secret `SONAR_TOKEN` (et la variable `SONAR_HOST_URL` si vous utilisez un serveur SonarQube).
 - **Désactiver** : supprimez le secret `SONAR_TOKEN` (le job sera ignoré grâce à `if: secrets.SONAR_TOKEN != ''`).
 
-## 5. Ressources
+## 5. Dépannage : "Project not found"
+
+Si le job SonarQube échoue avec *"Project not found. Please check the 'sonar.projectKey' and 'sonar.organization'..."* :
+
+1. **Créer le projet sur SonarCloud** (obligatoire avant la première analyse)  
+   - Aller sur [sonarcloud.io](https://sonarcloud.io) → **Add new project**.  
+   - Choisir l’organisation (ex. `ghazi135`) → **Import** le dépôt GitHub `p6-aj`.  
+   - Noter la **clé exacte** affichée (ex. `ghazi135_p6-aj`) et la mettre dans `sonar-project.properties` :  
+     `sonar.projectKey=<clé affichée>` et `sonar.organization=ghazi135`.
+
+2. **Vérifier le token SonarCloud**  
+   - SonarCloud → **My Account** → **Security** → **Generate Tokens** (nom libre, type *User Token*).  
+   - Le token doit avoir le droit d’analyser les projets de l’organisation.
+
+3. **Vérifier le secret GitHub**  
+   - Dépôt GitHub → **Settings** → **Secrets and variables** → **Actions**.  
+   - Un secret **`SONAR_TOKEN`** doit exister et contenir le token SonarCloud (sans espace, sans guillemets).
+
+4. **Clé = celle de SonarCloud**  
+   - La valeur de `sonar.projectKey` dans `sonar-project.properties` doit être **strictement** celle indiquée sur la page du projet dans SonarCloud (onglet *Project Settings* → *Key*).
+
+## 6. Ressources
 
 - [SonarCloud – GitHub Actions](https://docs.sonarsource.com/sonarcloud/advanced-setup/ci-based-analysis/github-actions-for-sonarcloud/)
 - [SonarScanner for Gradle](https://docs.sonarsource.com/sonarqube-cloud/advanced-setup/ci-based-analysis/sonarscanner-for-gradle)
