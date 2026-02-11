@@ -197,6 +197,10 @@ jobs:
           docker tag ${{ github.event.repository.name }}:${{ github.sha }} ${IMAGE}:latest
           docker push ${IMAGE}:latest
 
+          # Tag with branch name
+          docker tag ${{ github.event.repository.name }}:${{ github.sha }} ${IMAGE}:${{ github.ref_name }}
+          docker push ${IMAGE}:${{ github.ref_name }}
+
           # Tag with version if released
           if [ -n "${{ needs.release.outputs.new_release_version }}" ]; then
             docker tag ${{ github.event.repository.name }}:${{ github.sha }} ${IMAGE}:${{ needs.release.outputs.new_release_version }}
